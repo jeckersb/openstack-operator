@@ -33,7 +33,11 @@ func ReconcileRabbitMQ(ctx context.Context, instance *corev1beta1.OpenStackContr
 			Template: &rabbitmqv1.PodTemplateSpec{
 				Spec: &corev1.PodSpec{
 					SecurityContext: &corev1.PodSecurityContext{},
-					Containers:      []corev1.Container{},
+					Containers:      []corev1.Container{
+						&corev1.SecurityContext {
+							AllowPrivilegeEscalation: true,
+							RunAsUser: 42439,
+						},
 					InitContainers: []corev1.Container{
 						{Name: "setup-container", SecurityContext: &corev1.SecurityContext{}}},
 				},
